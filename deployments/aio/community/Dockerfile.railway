@@ -30,7 +30,7 @@ FROM makeplane/plane-backend:${PLANE_VERSION} AS backend-img
 FROM makeplane/plane-space:${PLANE_VERSION} AS space-img
 FROM makeplane/plane-admin:${PLANE_VERSION} AS admin-img
 FROM makeplane/plane-live:${PLANE_VERSION} AS live-img
-FROM makeplane/plane-proxy:${PLANE_VERSION} AS proxy-img
+FROM caddy:2.11.3-alpine AS caddy-img
 
 # **************************************************
 #  STAGE 2: Runner
@@ -56,7 +56,7 @@ COPY --from=live-img /app /app/live
 
 RUN rm -rf /app/space/apps/space/.next/cache
 
-COPY --from=proxy-img /usr/bin/caddy /usr/bin/caddy
+COPY --from=caddy-img /usr/bin/caddy /usr/bin/caddy
 COPY --from=dist-prep /dist/Caddyfile /app/proxy/Caddyfile
 
 COPY --from=backend-img /code /app/backend
