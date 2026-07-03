@@ -1,0 +1,9 @@
+{
+  "build": {
+    "dockerfilePath": "deployments/aio/community/Dockerfile.railway"
+  },
+  "deploy": {
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
